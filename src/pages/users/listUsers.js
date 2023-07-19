@@ -1,11 +1,16 @@
 import React, { Component } from "react";
 import { Row, Col, Container } from "react-bootstrap";
 import { connect } from "react-redux";
+import { removeUser } from "../../actions/userActions";
 
 class ListUsers extends Component {
     constructor(props) {
         super(props);
     }
+
+    handleRemove = id => {
+        this.props.remove(id);
+    };
 
     render() {
         return (
@@ -17,6 +22,15 @@ class ListUsers extends Component {
                                 <div className="card-body">
                                     <h5 className="card-title">{user.firstname}</h5>
                                     <p className="card-text">{user.email}</p>
+                                    <p className="card-text">
+                                        <button
+                                            type="button"
+                                            className="btn btn-danger"
+                                            onClick={ () => this.handleRemove(user.id)}
+                                        >
+                                            Usuń
+                                        </button>
+                                    </p>
                                 </div>
                             </div>
                         </Col>
@@ -33,4 +47,11 @@ const mapStateToProps = (state, ownProps) => {
     };
 };
 
-export default connect(mapStateToProps)(ListUsers);
+const mapDispatchToProps = dispatch => {
+    return {
+        remove: id => {
+            dispatch(removeUser(id));
+        }
+    };
+};
+export default connect(mapStateToProps, mapDispatchToProps)(ListUsers);

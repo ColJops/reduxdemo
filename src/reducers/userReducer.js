@@ -1,4 +1,4 @@
-import { ADD_USER } from "../actions/usersActionsTypes";
+import { ADD_USER, REMOVE_USER } from "../actions/usersActionsTypes";
  let usersCounter = 0;
  const initialState = {
     users: []
@@ -8,6 +8,12 @@ const usersReducer = (state = initialState, action) => {
         let data = { id: ++usersCounter, ...action.user };
         return {
             users: [...state.users, data]
+        };
+    }
+    else if (action.type === REMOVE_USER) {
+        return {
+            ...state,
+            users: state.users.filter(user => user.id !== action.id)
         };
     }
     return state;
